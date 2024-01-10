@@ -18,7 +18,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private ActivityMainBinding binding;
-    private int                 count = 1;
+
+    private              int    count = 1;
+    private static final String TAG   = "NativeTask_M";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private static final String TAG = "MainActivity";
-
     public void onTaskComplete() {
         Log.d(TAG, "onTaskComplete: ");
 
@@ -66,9 +66,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
 
+    public void enterSecond() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "enterSecond : " + Thread.currentThread().getName());
+                enterB();
+            }
+        });
+    }
+
     public native void runTask();
+
+
+    public native void enterB();
 }
