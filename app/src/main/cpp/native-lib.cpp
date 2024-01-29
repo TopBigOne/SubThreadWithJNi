@@ -10,6 +10,8 @@ JavaVM *g_vm = nullptr;
 
 jobject global_mainActivity = nullptr;
 
+void sweetSpace(JNIEnv *env, jobject thiz);
+
 
 // 耗时任务
 void backgroundTask(JNIEnv *env, jobject javaObject1) {
@@ -93,3 +95,29 @@ Java_com_uvknc_subthreadwithjni_MainActivity_enterB(JNIEnv *env, jobject javaObj
 
 
 }
+
+static JavaVM *mCoreJavaVM = nullptr;
+static JNIEnv *mJNIEnv     = nullptr;
+
+jint JNI_OnLoad(JavaVM *vm, void *reserved) {
+    LOGD(__func__)
+    mCoreJavaVM = vm;
+    if (mCoreJavaVM->GetEnv((void **) &mJNIEnv, JNI_VERSION_1_6) != JNI_OK) {
+        return JNI_ERR;
+    }
+
+
+    return JNI_VERSION_1_6;
+
+
+}
+
+
+void sweetSpace(JNIEnv *env, jobject thiz) {
+
+    LOGD(__func__)
+
+}
+
+
+
