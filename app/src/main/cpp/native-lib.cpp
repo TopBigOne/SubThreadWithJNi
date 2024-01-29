@@ -54,6 +54,7 @@ Java_com_uvknc_subthreadwithjni_MainActivity_runTask(JNIEnv *env, jobject javaOb
 
     backgroundThread.detach();
 
+
 }
 extern "C"
 JNIEXPORT void JNICALL
@@ -120,4 +121,20 @@ void sweetSpace(JNIEnv *env, jobject thiz) {
 }
 
 
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_uvknc_subthreadwithjni_MainActivity_setDirReadOnly(JNIEnv *env, jobject currentObject) {
+    jclass    contextClass      = env->FindClass("android/content/Context");
+    jmethodID getFilesDirMethod = env->GetMethodID(contextClass, "getFilesDir", "()Ljava/io/File;");
+    // 获取当前对象的 this
+    // 调用 getFilesDir 方法
+    jobject   fileObject        = env->CallObjectMethod(currentObject, getFilesDirMethod);
 
+    // 获取 setReadOnly 方法的 ID
+    jclass    fileClass         = env->FindClass("java/io/File");
+    jmethodID setReadOnlyMethod = env->GetMethodID(fileClass, "setReadOnly", "()Z");
+    // 调用 setReadOnly 方法
+    jboolean  result            = env->CallBooleanMethod(fileObject, setReadOnlyMethod);
+    LOGI("result: %d", result)
+
+}

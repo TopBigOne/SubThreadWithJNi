@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.uvknc.subthreadwithjni.databinding.ActivityMainBinding;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity {
 
     // Used to load the 'subthreadwithjni' library on application startup.
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         Button button = new Button(this);
         button.setText("Button");
 
-       // 设置按钮的布局参数
+        // 设置按钮的布局参数
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT
@@ -49,10 +51,10 @@ public class MainActivity extends AppCompatActivity {
         binding.getRoot().addView(button);
 
 
-
-
-
         initEvent();
+
+        File file = getFilesDir();
+        boolean b = file.setReadOnly();
 
 
     }
@@ -72,6 +74,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "UI UI " + count, Toast.LENGTH_SHORT).show();
                 count++;
+            }
+        });
+
+        binding.btnConfigFileDir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setDirReadOnly();
             }
         });
 
@@ -105,4 +114,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public native void enterB();
+
+    public native void setDirReadOnly();
 }
